@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Guitar Theory{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <nav class="main-nav">
+        <a href="/" class="nav-brand">Guitar Theory</a>
+        <div class="nav-links">
+            <a href="/" class="{% if request.path == '/' %}active{% endif %}">Fretboard</a>
+            <a href="/reference" class="{% if request.path == '/reference' %}active{% endif %}">Reference</a>
+            <a href="/progressions" class="{% if request.path == '/progressions' %}active{% endif %}">Progressions</a>
+            <a href="/ear-training" class="{% if request.path == '/ear-training' %}active{% endif %}">Ear Training</a>
+        </div>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

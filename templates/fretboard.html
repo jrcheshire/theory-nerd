@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Fretboard Explorer — Guitar Theory{% endblock %}
+
+{% block content %}
+<div class="controls">
+    <div class="control-group">
+        <label for="tuning-select">Tuning</label>
+        <select id="tuning-select">
+            {% for key, tuning in tunings.items() %}
+            <option value="{{ key }}" {% if key == 'd_standard' %}selected{% endif %}>
+                {{ tuning.name }} ({{ tuning.string_notes | map(attribute='name') | join(' ') }})
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="control-group">
+        <label for="root-select">Root</label>
+        <select id="root-select">
+            {% for note in note_names %}
+            <option value="{{ note }}">{{ note }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="control-group">
+        <label for="mode-select">Mode</label>
+        <select id="mode-select">
+            <option value="scale">Scale</option>
+            <option value="chord">Chord</option>
+        </select>
+    </div>
+
+    <div class="control-group">
+        <label for="type-select">Type</label>
+        <select id="type-select">
+            {% for name in scale_names %}
+            <option value="{{ name }}">{{ name | replace('_', ' ') | title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="control-group">
+        <label for="display-select">Display</label>
+        <select id="display-select">
+            <option value="degree">Degree (1, b3, 5...)</option>
+            <option value="note">Note Name</option>
+            <option value="interval">Interval (P1, m3, P5...)</option>
+        </select>
+    </div>
+
+    <div class="control-group">
+        <label for="volume-slider">Volume</label>
+        <input type="range" id="volume-slider" min="0" max="100" value="50" class="volume-slider">
+    </div>
+</div>
+
+<div class="info-bar" id="info-bar"></div>
+
+<div class="fretboard-container">
+    <svg id="fretboard"></svg>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script id="chord-data" type="application/json">{{ chord_types | tojson }}</script>
+<script src="{{ url_for('static', filename='js/audio.js') }}"></script>
+<script src="{{ url_for('static', filename='js/fretboard.js') }}"></script>
+{% endblock %}

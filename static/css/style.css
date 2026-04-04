@@ -1,0 +1,158 @@
+/* === Reset & Base === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg: #1a1a2e;
+    --bg-light: #16213e;
+    --surface: #0f3460;
+    --accent: #e94560;
+    --text: #eee;
+    --text-dim: #999;
+    --string-color: #bbb;
+    --fret-color: #555;
+    --nut-color: #ddd;
+
+    /* Interval colors */
+    --color-root: #e94560;
+    --color-2nd: #f5a623;
+    --color-3rd: #4ecdc4;
+    --color-4th: #a8d8ea;
+    --color-5th: #45b7d1;
+    --color-6th: #c792ea;
+    --color-7th: #f78c6c;
+    --color-default: #888;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* === Nav === */
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-light);
+    border-bottom: 1px solid var(--surface);
+}
+
+.nav-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--text);
+}
+
+/* === Controls === */
+main {
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.control-group label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+}
+
+select {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid #333;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.volume-slider {
+    width: 100px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+/* === Info bar === */
+.info-bar {
+    background: var(--bg-light);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.info-bar .info-item {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.info-bar .info-label {
+    color: var(--text-dim);
+}
+
+/* === Fretboard === */
+.fretboard-container {
+    overflow-x: auto;
+    padding: 1rem 0;
+}
+
+#fretboard {
+    display: block;
+    min-width: 100%;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .controls {
+        flex-direction: column;
+    }
+
+    .main-nav {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
