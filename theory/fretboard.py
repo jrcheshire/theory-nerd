@@ -13,14 +13,16 @@ from .notes import Note, DEGREE_LABELS
 class Tuning:
     """A guitar tuning defined as a list of open-string notes (low to high)."""
 
-    def __init__(self, name: str, strings: list[str]):
+    def __init__(self, name: str, strings: list[str], open_midis: list[int]):
         """
         Args:
             name: Display name (e.g., 'D Standard').
             strings: Note names from lowest to highest string.
+            open_midis: MIDI note numbers for each open string.
         """
         self.name = name
         self.string_notes = [Note(s) for s in strings]
+        self.open_midis = open_midis
 
     @property
     def num_strings(self) -> int:
@@ -34,29 +36,31 @@ class Tuning:
         return self.name
 
 
-# Preset tunings
+# Preset tunings                                                  E2  A2  D3  G3  B3  E4
 TUNINGS = {
-    'standard': Tuning('Standard', ['E', 'A', 'D', 'G', 'B', 'E']),
-    'd_standard': Tuning('D Standard', ['D', 'G', 'C', 'F', 'A', 'D']),
-    'drop_c': Tuning('Drop C', ['C', 'G', 'C', 'F', 'A', 'D']),
-    'c_standard': Tuning('C Standard', ['C', 'F', 'Bb', 'Eb', 'G', 'C']),
-    'drop_d': Tuning('Drop D', ['D', 'A', 'D', 'G', 'B', 'E']),
-    'open_g': Tuning('Open G', ['D', 'G', 'D', 'G', 'B', 'D']),
-    'open_d': Tuning('Open D', ['D', 'A', 'D', 'F#', 'A', 'D']),
-    'dadgad': Tuning('DADGAD', ['D', 'A', 'D', 'G', 'A', 'D']),
+    'standard':   Tuning('Standard',   ['E','A','D','G','B','E'],    [40, 45, 50, 55, 59, 64]),
+    'd_standard': Tuning('D Standard', ['D','G','C','F','A','D'],    [38, 43, 48, 53, 57, 62]),
+    'drop_c':     Tuning('Drop C',     ['C','G','C','F','A','D'],    [36, 43, 48, 53, 57, 62]),
+    'c_standard': Tuning('C Standard', ['C','F','Bb','Eb','G','C'],  [36, 41, 46, 51, 55, 60]),
+    'drop_d':     Tuning('Drop D',     ['D','A','D','G','B','E'],    [38, 45, 50, 55, 59, 64]),
+    'open_g':     Tuning('Open G',     ['D','G','D','G','B','D'],    [38, 43, 50, 55, 59, 62]),
+    'open_d':     Tuning('Open D',     ['D','A','D','F#','A','D'],   [38, 45, 50, 54, 57, 62]),
+    'dadgad':     Tuning('DADGAD',     ['D','A','D','G','A','D'],    [38, 45, 50, 55, 57, 62]),
 }
 
 
 class FretPosition:
     """A position on the fretboard."""
 
-    __slots__ = ('string', 'fret', 'note', 'label')
+    __slots__ = ('string', 'fret', 'note', 'label', 'midi')
 
-    def __init__(self, string: int, fret: int, note: Note, label: str = ''):
+    def __init__(self, string: int, fret: int, note: Note, label: str = '',
+                 midi: int = 0):
         self.string = string  # 0 = lowest string
         self.fret = fret      # 0 = open string
         self.note = note
         self.label = label    # degree label, interval name, or note name
+        self.midi = midi      # MIDI note number
 
     def __repr__(self):
         return f"FretPosition(s={self.string}, f={self.fret}, {self.note.name}, {self.label!r})"
@@ -68,6 +72,7 @@ class FretPosition:
             'note': self.note.name,
             'label': self.label,
             'pitch': self.note.pitch,
+            'midi': self.midi,
         }
 
 
@@ -123,7 +128,8 @@ class Fretboard:
                 n = self.note_at(s, f)
                 if n.pitch in scale_pitches:
                     label = scale_pitches[n.pitch]
-                    positions.append(FretPosition(s, f, n, label))
+                    midi = self.tuning.open_midis[s] + f
+                    positions.append(FretPosition(s, f, n, label, midi))
 
         return positions
 
@@ -148,7 +154,8 @@ class Fretboard:
                 n = self.note_at(s, f)
                 if n.pitch in chord_pitches:
                     label = chord_pitches[n.pitch]
-                    positions.append(FretPosition(s, f, n, label))
+                    midi = self.tuning.open_midis[s] + f
+                    positions.append(FretPosition(s, f, n, label, midi))
 
         return positions
 

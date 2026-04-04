@@ -36,8 +36,10 @@ const AudioEngine = (() => {
         osc.frequency.setValueAtTime(frequency, ac.currentTime);
 
         // ADSR-ish envelope
-        const peak = 0.3 * masterVolume;
-        const sustain = 0.15 * masterVolume;
+        // Boost low frequencies — they're physically quieter on small speakers
+        const lowBoost = frequency < 200 ? Math.max(1.0, 2.5 - frequency / 130) : 1.0;
+        const peak = 0.3 * masterVolume * lowBoost;
+        const sustain = 0.15 * masterVolume * lowBoost;
         gain.gain.setValueAtTime(0, ac.currentTime);
         gain.gain.linearRampToValueAtTime(peak, ac.currentTime + 0.02);  // attack
         gain.gain.exponentialRampToValueAtTime(Math.max(sustain, 0.001), ac.currentTime + 0.1);  // decay

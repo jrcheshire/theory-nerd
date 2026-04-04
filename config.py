@@ -1,4 +1,4 @@
 """App configuration."""
 
-DEFAULT_TUNING = 'd_standard'
+DEFAULT_TUNING = 'standard'
 DEFAULT_NUM_FRETS = 24

@@ -44,7 +44,7 @@ function populateTunings() {
         const opt = document.createElement('option');
         opt.value = key;
         opt.textContent = `${tuning.name} (${tuning.stringNotes.map(n => n.name).join(' ')})`;
-        if (key === 'd_standard') opt.selected = true;
+        if (key === 'standard') opt.selected = true;
         sel.appendChild(opt);
     }
 }
@@ -197,8 +197,7 @@ const FB = (() => {
 
             const circle = svgEl('circle', { cx, cy, r: DOT_RADIUS, fill: color, stroke: isRoot ? '#fff' : 'none', 'stroke-width': isRoot ? 2 : 0, cursor: 'pointer', opacity: 0.9 });
             circle.addEventListener('click', () => {
-                const baseOctaves = [2, 2, 3, 3, 3, 4];
-                Audio.playNote(p.pitch, (baseOctaves[p.string] || 2) + Math.floor(p.fret / 12), 0.6);
+                Audio.playMidi(p.midi, 0.6);
             });
             svg.appendChild(circle);
 

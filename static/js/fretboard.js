@@ -195,10 +195,7 @@ const FretboardApp = (() => {
 
             // Click to play
             circle.addEventListener('click', () => {
-                // Estimate octave from string and fret
-                const baseOctaves = [2, 2, 3, 3, 3, 4]; // approximate for standard-ish tunings
-                const octave = (baseOctaves[p.string] || 2) + Math.floor(p.fret / 12);
-                AudioEngine.playNote(p.pitch, octave, 0.6);
+                AudioEngine.playMidi(p.midi, 0.6);
             });
 
             svg.appendChild(circle);

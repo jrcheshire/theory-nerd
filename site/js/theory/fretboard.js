@@ -5,23 +5,25 @@
 import { Note, DEGREE_LABELS } from './notes.js';
 
 export class Tuning {
-    constructor(name, strings) {
+    constructor(name, strings, openMidis) {
         this.name = name;
         this.stringNotes = strings.map(s => new Note(s));
+        this.openMidis = openMidis;  // MIDI note number for each open string
     }
 
     get numStrings() { return this.stringNotes.length; }
 }
 
+//                                                     E2  A2  D3  G3  B3  E4
 export const TUNINGS = {
-    standard:    new Tuning('Standard', ['E', 'A', 'D', 'G', 'B', 'E']),
-    d_standard:  new Tuning('D Standard', ['D', 'G', 'C', 'F', 'A', 'D']),
-    drop_c:      new Tuning('Drop C', ['C', 'G', 'C', 'F', 'A', 'D']),
-    c_standard:  new Tuning('C Standard', ['C', 'F', 'Bb', 'Eb', 'G', 'C']),
-    drop_d:      new Tuning('Drop D', ['D', 'A', 'D', 'G', 'B', 'E']),
-    open_g:      new Tuning('Open G', ['D', 'G', 'D', 'G', 'B', 'D']),
-    open_d:      new Tuning('Open D', ['D', 'A', 'D', 'F#', 'A', 'D']),
-    dadgad:      new Tuning('DADGAD', ['D', 'A', 'D', 'G', 'A', 'D']),
+    standard:    new Tuning('Standard',   ['E','A','D','G','B','E'],    [40, 45, 50, 55, 59, 64]),
+    d_standard:  new Tuning('D Standard', ['D','G','C','F','A','D'],    [38, 43, 48, 53, 57, 62]),
+    drop_c:      new Tuning('Drop C',     ['C','G','C','F','A','D'],    [36, 43, 48, 53, 57, 62]),
+    c_standard:  new Tuning('C Standard', ['C','F','Bb','Eb','G','C'],  [36, 41, 46, 51, 55, 60]),
+    drop_d:      new Tuning('Drop D',     ['D','A','D','G','B','E'],    [38, 45, 50, 55, 59, 64]),
+    open_g:      new Tuning('Open G',     ['D','G','D','G','B','D'],    [38, 43, 50, 55, 59, 62]),
+    open_d:      new Tuning('Open D',     ['D','A','D','F#','A','D'],   [38, 45, 50, 54, 57, 62]),
+    dadgad:      new Tuning('DADGAD',     ['D','A','D','G','A','D'],    [38, 45, 50, 55, 57, 62]),
 };
 
 export class Fretboard {
@@ -55,6 +57,7 @@ export class Fretboard {
                         string: s, fret: f,
                         note: n.name, label: scalePitches[n.pitch],
                         pitch: n.pitch,
+                        midi: this.tuning.openMidis[s] + f,
                     });
                 }
             }
@@ -78,6 +81,7 @@ export class Fretboard {
                         string: s, fret: f,
                         note: n.name, label: chordPitches[n.pitch],
                         pitch: n.pitch,
+                        midi: this.tuning.openMidis[s] + f,
                     });
                 }
             }
