@@ -56,6 +56,7 @@ function populateScaleOptions() {
         const opt = document.createElement('option');
         opt.value = name;
         opt.textContent = name.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        if (name === 'major') opt.selected = true;
         sel.appendChild(opt);
     }
 }
