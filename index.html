@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory Nerd</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <a href="#fretboard" class="nav-brand">Theory Nerd</a>
+        <div class="nav-links">
+            <a href="#fretboard" data-page="fretboard">Fretboard</a>
+            <a href="#reference" data-page="reference">Reference</a>
+            <a href="#progressions" data-page="progressions">Progressions</a>
+            <a href="#ear-training" data-page="ear-training">Ear Training</a>
+        </div>
+    </nav>
+    <main>
+        <!-- ==================== FRETBOARD ==================== -->
+        <section id="page-fretboard" class="page">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="tuning-select">Tuning</label>
+                    <select id="tuning-select"></select>
+                </div>
+                <div class="control-group">
+                    <label for="root-select">Root</label>
+                    <select id="root-select"></select>
+                </div>
+                <div class="control-group">
+                    <label for="mode-select">Mode</label>
+                    <select id="mode-select">
+                        <option value="scale">Scale</option>
+                        <option value="chord">Chord</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="type-select">Type</label>
+                    <select id="type-select"></select>
+                </div>
+                <div class="control-group">
+                    <label for="display-select">Display</label>
+                    <select id="display-select">
+                        <option value="degree">Degree (1, b3, 5...)</option>
+                        <option value="note">Note Name</option>
+                        <option value="interval">Interval (P1, m3, P5...)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="volume-slider">Volume</label>
+                    <input type="range" id="volume-slider" min="0" max="100" value="50" class="volume-slider">
+                </div>
+            </div>
+            <div class="info-bar" id="info-bar"></div>
+            <div class="fretboard-container">
+                <svg id="fretboard"></svg>
+            </div>
+        </section>
+
+        <!-- ==================== REFERENCE ==================== -->
+        <section id="page-reference" class="page" style="display:none">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="ref-root-select">Root</label>
+                    <select id="ref-root-select"></select>
+                </div>
+                <div class="control-group">
+                    <label for="ref-search">Search</label>
+                    <input type="text" id="ref-search" placeholder="Filter..." class="search-input">
+                </div>
+                <div class="control-group">
+                    <label for="volume-slider-ref">Volume</label>
+                    <input type="range" id="volume-slider-ref" min="0" max="100" value="50" class="volume-slider">
+                </div>
+            </div>
+            <div class="ref-tabs">
+                <button class="ref-tab active" data-tab="scales">Scales</button>
+                <button class="ref-tab" data-tab="chords">Chords</button>
+            </div>
+            <div class="ref-layout">
+                <div class="ref-list" id="ref-list"></div>
+                <div class="ref-detail" id="ref-detail">
+                    <div class="ref-detail-placeholder">Select a scale or chord to see details</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PROGRESSIONS ==================== -->
+        <section id="page-progressions" class="page" style="display:none">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="key-root-select">Key</label>
+                    <select id="key-root-select"></select>
+                </div>
+                <div class="control-group">
+                    <label for="progression-select">Progression</label>
+                    <select id="progression-select"></select>
+                </div>
+                <div class="control-group">
+                    <label for="tag-filter">Filter</label>
+                    <select id="tag-filter">
+                        <option value="">All Styles</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="tempo-slider">Tempo</label>
+                    <div class="tempo-control">
+                        <input type="range" id="tempo-slider" min="40" max="200" value="100" class="volume-slider">
+                        <span id="tempo-display" class="tempo-label">100 bpm</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="volume-slider-prog">Volume</label>
+                    <input type="range" id="volume-slider-prog" min="0" max="100" value="50" class="volume-slider">
+                </div>
+            </div>
+            <div class="prog-description" id="prog-description"></div>
+            <div class="info-bar" id="key-info-bar"></div>
+            <div class="progression-container" id="progression-container">
+                <div class="chord-cards" id="chord-cards"></div>
+            </div>
+            <div class="playback-controls">
+                <button class="play-btn" id="play-btn">Play</button>
+                <button class="play-btn" id="stop-btn">Stop</button>
+            </div>
+        </section>
+
+        <!-- ==================== EAR TRAINING ==================== -->
+        <section id="page-ear-training" class="page" style="display:none">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="et-mode">Exercise</label>
+                    <select id="et-mode">
+                        <option value="interval">Intervals</option>
+                        <option value="chord">Chords</option>
+                        <option value="scale">Scales</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="et-difficulty">Difficulty</label>
+                    <select id="et-difficulty">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="volume-slider-et">Volume</label>
+                    <input type="range" id="volume-slider-et" min="0" max="100" value="50" class="volume-slider">
+                </div>
+            </div>
+            <div class="et-layout">
+                <div class="et-main">
+                    <div class="et-prompt" id="et-prompt">
+                        Choose an exercise and press Start to begin.
+                    </div>
+                    <div class="et-play-area">
+                        <button class="play-btn et-play-btn" id="et-play">Play</button>
+                        <button class="play-btn et-play-btn" id="et-replay" disabled>Replay</button>
+                        <button class="play-btn et-play-btn" id="et-next">Next</button>
+                    </div>
+                    <div class="et-choices" id="et-choices"></div>
+                    <div class="et-feedback" id="et-feedback"></div>
+                </div>
+                <div class="et-sidebar">
+                    <div class="et-score-card">
+                        <div class="et-score-title">Score</div>
+                        <div class="et-score-value" id="et-score">0 / 0</div>
+                        <div class="et-score-pct" id="et-pct"></div>
+                        <div class="et-streak" id="et-streak"></div>
+                        <button class="play-btn et-reset-btn" id="et-reset">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="site-footer">
+        <a href="https://github.com/jrcheshire/theory-nerd">GitHub</a>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
