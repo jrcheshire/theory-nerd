@@ -8,7 +8,7 @@
         <label for="tuning-select">Tuning</label>
         <select id="tuning-select">
             {% for key, tuning in tunings.items() %}
-            <option value="{{ key }}" {% if key == 'd_standard' %}selected{% endif %}>
+            <option value="{{ key }}" {% if key == 'standard' %}selected{% endif %}>
                 {{ tuning.name }} ({{ tuning.string_notes | map(attribute='name') | join(' ') }})
             </option>
             {% endfor %}

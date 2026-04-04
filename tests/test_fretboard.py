@@ -32,7 +32,7 @@ class TestTuning:
         assert TUNINGS['standard'].num_strings == 6
 
     def test_custom_tuning(self):
-        t = Tuning('Custom', ['D', 'A', 'D', 'F#', 'A', 'D'])
+        t = Tuning('Custom', ['D', 'A', 'D', 'F#', 'A', 'D'], [38, 45, 50, 54, 57, 62])
         assert t.num_strings == 6
         assert t.string_notes[0].name == 'D'
 

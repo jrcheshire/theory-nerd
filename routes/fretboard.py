@@ -33,7 +33,7 @@ def fretboard_data():
         type: scale name or chord type symbol
         frets: number of frets (default: 24)
     """
-    tuning_key = request.args.get('tuning', 'd_standard')
+    tuning_key = request.args.get('tuning', 'standard')
     mode = request.args.get('mode', 'scale')
     root_name = request.args.get('root', 'C')
     type_name = request.args.get('type', 'major')
