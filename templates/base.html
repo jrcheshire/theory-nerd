@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Guitar Theory{% endblock %}</title>
+    <title>{% block title %}Theory Nerd{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     {% block head %}{% endblock %}
 </head>
 <body>
     <nav class="main-nav">
-        <a href="/" class="nav-brand">Guitar Theory</a>
+        <a href="/" class="nav-brand">Theory Nerd</a>
         <div class="nav-links">
             <a href="/" class="{% if request.path == '/' %}active{% endif %}">Fretboard</a>
             <a href="/reference" class="{% if request.path == '/reference' %}active{% endif %}">Reference</a>

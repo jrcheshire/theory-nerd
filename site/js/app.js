@@ -1,5 +1,5 @@
 /**
- * Guitar Theory — Static SPA
+ * Theory Nerd — Static SPA
  *
  * Single entry point: hash-based routing, populates selects from theory modules,
  * and wires up all four page controllers.
