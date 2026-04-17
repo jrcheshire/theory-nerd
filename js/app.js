@@ -576,22 +576,29 @@ const ET = (() => {
     function generateQuestion() {
         const mode = document.getElementById('et-mode').value;
         const difficulty = document.getElementById('et-difficulty').value;
+        const direction = document.getElementById('et-direction').value;
         const rootPitch = Math.floor(Math.random() * 12);
         const root = Note.fromPitch(rootPitch);
 
-        if (mode === 'interval') return intervalQuestion(root, difficulty);
+        if (mode === 'interval') return intervalQuestion(root, difficulty, direction);
         if (mode === 'chord') return chordQuestion(root, difficulty);
         return scaleQuestion(root, difficulty);
     }
 
-    function intervalQuestion(root, difficulty) {
+    function intervalQuestion(root, difficulty, direction) {
         const pool = difficulty === 'easy' ? EASY_INTERVALS : difficulty === 'medium' ? MEDIUM_INTERVALS : HARD_INTERVALS;
         const answerSt = pick(pool);
-        const second = root.transpose(answerSt);
+
+        const rootOctave = 4;
+        const rootMidi = root.pitch + (rootOctave + 1) * 12;
+        let dir = direction === 'both' ? (Math.random() < 0.5 ? 'ascending' : 'descending') : direction;
+        // Unison is directionless — just play the same note twice.
+        if (answerSt === 0) dir = 'ascending';
+        const secondMidi = dir === 'descending' ? rootMidi - answerSt : rootMidi + answerSt;
 
         return {
             mode: 'interval',
-            play: { type: 'interval', pitches: [root.pitch, second.pitch], rootOctave: 4 },
+            play: { type: 'interval', midis: [rootMidi, secondMidi] },
             answer: answerSt,
             answerLabel: INTERVAL_LONG_NAMES[answerSt],
             choices: pool.map(st => ({ value: st, label: INTERVAL_LONG_NAMES[st] })),
@@ -632,8 +639,8 @@ const ET = (() => {
         if (!currentQuestion) return;
         const p = currentQuestion.play;
         if (p.type === 'interval') {
-            Audio.playNote(p.pitches[0], p.rootOctave, 0.5);
-            setTimeout(() => Audio.playNote(p.pitches[1], p.rootOctave, 0.5), 600);
+            Audio.playMidi(p.midis[0], 0.5);
+            setTimeout(() => Audio.playMidi(p.midis[1], 0.5), 600);
         } else if (p.type === 'chord') {
             const midis = [];
             for (let i = 0; i < p.pitches.length; i++) {
@@ -723,14 +730,25 @@ const ET = (() => {
         setTimeout(playQuestion, 300);
     }
 
+    function updateDirectionVisibility() {
+        const mode = document.getElementById('et-mode').value;
+        const group = document.getElementById('et-direction-group');
+        group.style.display = mode === 'interval' ? '' : 'none';
+    }
+
     function init() {
         document.getElementById('et-play').addEventListener('click', nextQuestion);
         document.getElementById('et-replay').addEventListener('click', playQuestion);
         document.getElementById('et-next').addEventListener('click', nextQuestion);
         document.getElementById('et-reset').addEventListener('click', resetScore);
-        document.getElementById('et-mode').addEventListener('change', resetScore);
+        document.getElementById('et-mode').addEventListener('change', () => {
+            updateDirectionVisibility();
+            resetScore();
+        });
         document.getElementById('et-difficulty').addEventListener('change', resetScore);
+        document.getElementById('et-direction').addEventListener('change', resetScore);
         document.getElementById('volume-slider-et').addEventListener('input', e => Audio.setVolume(e.target.value / 100));
+        updateDirectionVisibility();
     }
 
     return { init };
